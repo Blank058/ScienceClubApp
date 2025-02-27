@@ -182,13 +182,16 @@ def delete_event_route(event_name):
 def finances():
     if "user" not in session or session["role"] != "admin":
         return redirect(url_for("login"))
+
     if request.method == "POST":
         transaction_name = request.form["transaction_name"]
         amount = request.form["amount"]
         transaction_type = request.form["transaction_type"]
         record_transaction(transaction_name, amount, transaction_type)
+
     transactions = get_transactions()
     return render_template("finances.html", transactions=transactions)
+
 
 @app.route("/view_attendance")
 def view_attendance():
