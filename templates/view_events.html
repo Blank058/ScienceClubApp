@@ -7,24 +7,63 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
-    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-2xl">
-        <h2 class="text-2xl font-bold text-gray-800">Upcoming Events</h2>
-        <p class="text-gray-600 mt-2">Here are the upcoming events you can attend.</p>
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-3xl">
+        <h2 class="text-2xl font-bold text-gray-800">Available Events</h2>
+        <p class="text-gray-600 mt-2">Register for an event.</p>
 
         <table class="w-full mt-4 border-collapse border border-gray-300">
             <thead>
                 <tr class="bg-gray-200">
                     <th class="border border-gray-300 px-4 py-2">Event Name</th>
                     <th class="border border-gray-300 px-4 py-2">Date</th>
-                    <th class="border border-gray-300 px-4 py-2">Slots Available</th>
+                    <th class="border border-gray-300 px-4 py-2">Slots Left</th>
+                    <th class="border border-gray-300 px-4 py-2">Action</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Event records will be displayed here -->
+                {% for event in events %}
+                <tr class="bg-white">
+                    <td class="border border-gray-300 px-4 py-2">{{ event[0] }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ event[1] }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ event[2] }}</td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        {% if event[0] in registered_events|map(attribute=0) %}
+                            <span class="text-green-500">Registered</span>
+                        {% else %}
+                            <form method="POST">
+                                <input type="hidden" name="event_name" value="{{ event[0] }}">
+                                <button type="submit" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                                    Register
+                                </button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
 
-        <a href="{{ url_for('dashboard') }}" class="block text-center mt-4 text-blue-500 hover:underline">Back to Dashboard</a>
+        <h3 class="text-xl font-bold text-gray-800 mt-6">Your Upcoming Events</h3>
+        <table class="w-full mt-4 border-collapse border border-gray-300">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border border-gray-300 px-4 py-2">Event Name</th>
+                    <th class="border border-gray-300 px-4 py-2">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event_name, event_date in registered_events %}
+                <tr class="bg-white">
+                    <td class="border border-gray-300 px-4 py-2">{{ event_name }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ event_date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ url_for('dashboard') }}" class="block text-center mt-4 text-blue-500 hover:underline">
+            Back to Dashboard
+        </a>
     </div>
 </body>
 </html>
