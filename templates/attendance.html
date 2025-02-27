@@ -1,88 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attendance Management</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
-    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-2xl">
-        <h2 class="text-2xl font-bold text-gray-800">Manage Attendance</h2>
-        <p class="text-gray-600 mt-2">Mark student attendance for today's session.</p>
-
-        <form method="POST" class="mt-4">
-            <label class="block text-gray-600">Student Name:</label>
-            <input type="text" name="student_name" class="w-full border px-3 py-2 rounded focus:ring focus:ring-blue-300">
-            
-            <label class="block text-gray-600 mt-2">Status:</label>
-            <select name="status" class="w-full border px-3 py-2 rounded focus:ring focus:ring-blue-300">
-                <option value="Present">Present</option>
-                <option value="Absent">Absent</option>
-            </select>
-            
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-600 w-full">Submit</button>
-        </form>
-
-        <a href="{{ url_for('dashboard') }}" class="block text-center mt-4 text-blue-500 hover:underline">Back to Dashboard</a>
-    </div>
-</body>
-</html> -->
-
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Attendance</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
-    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-3xl">
-        <h2 class="text-2xl font-bold text-gray-800 text-center">Attendance Management</h2>
-        <p class="text-gray-600 mt-2 text-center">Mark members as Present or Absent</p>
-
-        <table class="w-full mt-4 border-collapse border border-gray-300">
-            <thead>
-                <tr class="bg-gray-200">
-                    <th class="border border-gray-300 px-4 py-2">Member Name</th>
-                    <th class="border border-gray-300 px-4 py-2">Current Status</th>
-                    <th class="border border-gray-300 px-4 py-2">Update Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for member in members %}
-                <tr class="bg-white">
-                    <td class="border border-gray-300 px-4 py-2">{{ member }}</td>
-                    <td class="border border-gray-300 px-4 py-2">
-                        {% if member in attendance_records %}
-                            {{ attendance_records[member] }}
-                        {% else %}
-                            Not Marked
-                        {% endif %}
-                    </td>
-                    <td class="border border-gray-300 px-4 py-2">
-                        <form method="POST">
-                            <input type="hidden" name="student_name" value="{{ member }}">
-                            <select name="status" class="border px-2 py-1 rounded">
-                                <option value="Present">Present</option>
-                                <option value="Absent">Absent</option>
-                            </select>
-                            <button type="submit" class="bg-blue-500 text-white px-3 py-1 rounded ml-2 hover:bg-blue-600">Update</button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <a href="{{ url_for('dashboard') }}" class="block text-center mt-4 text-blue-500 hover:underline">Back to Dashboard</a>
-    </div>
-</body>
-</html> -->
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -110,16 +25,17 @@
                     <tr class="bg-white">
                         <td class="border border-gray-300 px-4 py-2">{{ member }}</td>
                         <td class="border border-gray-300 px-4 py-2">
-                            {% if member in attendance_records %}
-                                {{ attendance_records[member] }}
+                            {% if member in attendance_records and attendance_records[member] %}
+                                {% set latest_record = attendance_records[member][-1] %}
+                                {{ latest_record.status }} ({{ latest_record.date }})
                             {% else %}
                                 Not Marked
                             {% endif %}
                         </td>
                         <td class="border border-gray-300 px-4 py-2">
                             <select name="{{ member }}" class="border px-2 py-1 rounded w-full">
-                                <option value="Present">Present</option>
-                                <option value="Absent">Absent</option>
+                                <option value="Present" {% if member in attendance_records and attendance_records[member][-1].status == "Present" %}selected{% endif %}>Present</option>
+                                <option value="Absent" {% if member in attendance_records and attendance_records[member][-1].status == "Absent" %}selected{% endif %}>Absent</option>
                             </select>
                         </td>
                     </tr>
@@ -127,7 +43,7 @@
                 </tbody>
             </table>
 
-            <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded mt-4 hover:bg-blue-600 w-full">Update All</button>
+            <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded mt-4 hover:bg-blue-600 w-full">Update Attendance</button>
         </form>
 
         <a href="{{ url_for('dashboard') }}" class="block text-center mt-4 text-blue-500 hover:underline">Back to Dashboard</a>
