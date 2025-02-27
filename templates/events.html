@@ -7,22 +7,46 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
-    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-2xl">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-3xl">
         <h2 class="text-2xl font-bold text-gray-800">Manage Events</h2>
-        <p class="text-gray-600 mt-2">Create, edit, or remove events.</p>
+        <p class="text-gray-600 mt-2">Create or delete events.</p>
 
         <form method="POST" class="mt-4">
             <label class="block text-gray-600">Event Name:</label>
-            <input type="text" name="event_name" class="w-full border px-3 py-2 rounded focus:ring focus:ring-green-300">
+            <input type="text" name="event_name" class="w-full border px-3 py-2 rounded focus:ring focus:ring-green-300" required>
             
             <label class="block text-gray-600 mt-2">Event Date:</label>
-            <input type="date" name="event_date" class="w-full border px-3 py-2 rounded focus:ring focus:ring-green-300">
+            <input type="date" name="event_date" class="w-full border px-3 py-2 rounded focus:ring focus:ring-green-300" required>
 
             <label class="block text-gray-600 mt-2">Slots Available:</label>
-            <input type="number" name="slots" class="w-full border px-3 py-2 rounded focus:ring focus:ring-green-300">
+            <input type="number" name="slots" class="w-full border px-3 py-2 rounded focus:ring focus:ring-green-300" required>
 
             <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded mt-4 hover:bg-green-600 w-full">Add Event</button>
         </form>
+
+        <h3 class="text-xl font-bold text-gray-800 mt-6">Current Events</h3>
+        <table class="w-full mt-4 border-collapse border border-gray-300">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border border-gray-300 px-4 py-2">Event Name</th>
+                    <th class="border border-gray-300 px-4 py-2">Date</th>
+                    <th class="border border-gray-300 px-4 py-2">Slots</th>
+                    <th class="border border-gray-300 px-4 py-2">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in events %}
+                <tr>
+                    <td class="border border-gray-300 px-4 py-2">{{ event[0] }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ event[1] }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ event[2] }}</td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <a href="{{ url_for('delete_event_route', event_name=event[0]) }}" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
         <a href="{{ url_for('dashboard') }}" class="block text-center mt-4 text-blue-500 hover:underline">Back to Dashboard</a>
     </div>
