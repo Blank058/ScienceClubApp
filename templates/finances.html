@@ -3,31 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Financial Management</title>
+    <title>Manage Finances</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-3xl">
-        <h2 class="text-2xl font-bold text-gray-800">Manage Finances</h2>
-        <p class="text-gray-600 mt-2">Record income and expenses.</p>
+        <h2 class="text-2xl font-bold text-gray-800">Financial Management</h2>
+        <p class="text-gray-600 mt-2">Manage payments and expenses.</p>
 
+        <!-- Request Payment from Members -->
+        <h3 class="text-xl font-bold text-gray-800 mt-6">Request Payments</h3>
         <form method="POST" class="mt-4">
-            <label class="block text-gray-600">Transaction Name:</label>
-            <input type="text" name="transaction_name" class="w-full border px-3 py-2 rounded focus:ring focus:ring-yellow-300" required>
-            
-            <label class="block text-gray-600 mt-2">Amount:</label>
-            <input type="number" name="amount" class="w-full border px-3 py-2 rounded focus:ring focus:ring-yellow-300" required>
-            
-            <label class="block text-gray-600 mt-2">Type:</label>
-            <select name="transaction_type" class="w-full border px-3 py-2 rounded focus:ring focus:ring-yellow-300">
-                <option value="Income">Income</option>
-                <option value="Expense">Expense</option>
-            </select>
+            <label class="block text-gray-600">Amount:</label>
+            <input type="number" name="fee_amount" class="w-full border px-3 py-2 rounded focus:ring focus:ring-yellow-300" required>
 
-            <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded mt-4 hover:bg-yellow-600 w-full">Record Transaction</button>
+            <label class="block text-gray-600 mt-2">Description:</label>
+            <input type="text" name="description" class="w-full border px-3 py-2 rounded focus:ring focus:ring-yellow-300" required>
+
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-600 w-full">Request Payment</button>
         </form>
 
+        <!-- Record Club Expenses -->
+        <h3 class="text-xl font-bold text-gray-800 mt-6">Record Expenses</h3>
+        <form method="POST" class="mt-4">
+            <label class="block text-gray-600">Expense Name:</label>
+            <input type="text" name="expense_name" class="w-full border px-3 py-2 rounded focus:ring focus:ring-yellow-300" required>
+
+            <label class="block text-gray-600 mt-2">Amount:</label>
+            <input type="number" name="amount" class="w-full border px-3 py-2 rounded focus:ring focus:ring-yellow-300" required>
+
+            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded mt-4 hover:bg-red-600 w-full">Record Expense</button>
+        </form>
+
+        <!-- Display All Transactions -->
+        <h3 class="text-xl font-bold text-gray-800 mt-6">All Transactions</h3>
+        <table class="w-full mt-4 border-collapse border border-gray-300">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border border-gray-300 px-4 py-2">Transaction</th>
+                    <th class="border border-gray-300 px-4 py-2">Amount</th>
+                    <th class="border border-gray-300 px-4 py-2">Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr class="bg-white">
+                    <td class="border border-gray-300 px-4 py-2">{{ transaction[0] }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ transaction[1] }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ transaction[2] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <!-- Download Financial Report Button -->
+        <div class="mt-6 flex justify-center">
+            <a href="{{ url_for('download_financial_report') }}" class="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-600">
+                Download Financial Report (PDF)
+            </a>
+        </div>
+        
         <a href="{{ url_for('dashboard') }}" class="block text-center mt-4 text-blue-500 hover:underline">Back to Dashboard</a>
     </div>
 </body>
-</html>
+</html> 
+
