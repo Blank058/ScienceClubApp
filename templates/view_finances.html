@@ -3,24 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Payments</title>
+    <title>View Finances</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
-    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-2xl">
-        <h2 class="text-2xl font-bold text-gray-800">Your Payments</h2>
-        <p class="text-gray-600 mt-2">View your payment history below.</p>
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-3xl">
+        <h2 class="text-2xl font-bold text-gray-800">Your Financials</h2>
+        <p class="text-gray-600 mt-2">View and complete your payments.</p>
 
+        <!-- Display Pending Payments -->
+        <h3 class="text-xl font-bold text-gray-800 mt-6">Pending Payments</h3>
         <table class="w-full mt-4 border-collapse border border-gray-300">
             <thead>
                 <tr class="bg-gray-200">
-                    <th class="border border-gray-300 px-4 py-2">Transaction Name</th>
                     <th class="border border-gray-300 px-4 py-2">Amount</th>
-                    <th class="border border-gray-300 px-4 py-2">Type</th>
+                    <th class="border border-gray-300 px-4 py-2">Description</th>
+                    <th class="border border-gray-300 px-4 py-2">Status</th>
+                    <th class="border border-gray-300 px-4 py-2">Action</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Payment records will be displayed here -->
+                {% for payment in member_payments %}
+                <tr class="bg-white">
+                    <td class="border border-gray-300 px-4 py-2">{{ payment[1] }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ payment[2] }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ payment[3] }}</td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        {% if payment[3] == "Pending" %}
+                            <form method="POST">
+                                <input type="hidden" name="description" value="{{ payment[2] }}">
+                                <button type="submit" class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">
+                                    Mark as Paid
+                                </button>
+                            </form>
+                        {% else %}
+                            <span class="text-green-500">Paid</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
 
