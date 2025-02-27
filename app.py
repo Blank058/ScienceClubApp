@@ -193,25 +193,26 @@ def finances():
     return render_template("finances.html", transactions=transactions)
 
 
+
 @app.route("/view_attendance")
 def view_attendance():
     if "user" not in session or session["role"] != "member":
         return redirect(url_for("login"))
-    records = get_attendance()  # Fetch all attendance records
+    records = get_attendance()
     return render_template("view_attendance.html", records=records)
 
 @app.route("/view_events")
 def view_events():
     if "user" not in session or session["role"] != "member":
         return redirect(url_for("login"))
-    events_list = get_events()  # Fetch all event records
+    events_list = get_events()
     return render_template("view_events.html", events=events_list)
 
 @app.route("/view_finances")
 def view_finances():
     if "user" not in session or session["role"] != "member":
         return redirect(url_for("login"))
-    transactions = get_transactions()  # Fetch all transactions
+    transactions = get_transactions()
     return render_template("view_finances.html", transactions=transactions)
 
 
