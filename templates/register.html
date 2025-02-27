@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Science Club</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-md w-96">
+        <h2 class="text-2xl font-bold text-gray-800">Register</h2>
+        <form method="POST" class="mt-4">
+            <label class="block text-gray-600">Username:</label>
+            <input type="text" name="username" class="w-full border px-3 py-2 rounded focus:ring focus:ring-green-300">
+            
+            <label class="block text-gray-600 mt-2">Password:</label>
+            <input type="password" name="password" class="w-full border px-3 py-2 rounded focus:ring focus:ring-green-300">
+            
+            <label class="block text-gray-600 mt-2">Role:</label>
+            <select name="role" class="w-full border px-3 py-2 rounded focus:ring focus:ring-green-300">
+                <option value="member">Member</option>
+                <option value="admin">Admin</option>
+            </select>
+            
+            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded mt-4 hover:bg-green-600 w-full">Register</button>
+        </form>
+    </div>
+</body>
+</html>

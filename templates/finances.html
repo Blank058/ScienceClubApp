@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-2xl">
+        <h2 class="text-2xl font-bold text-gray-800">Manage Finances</h2>
+        <p class="text-gray-600 mt-2">Track and update financial transactions.</p>
+
+        <form method="POST" class="mt-4">
+            <label class="block text-gray-600">Transaction Name:</label>
+            <input type="text" name="transaction_name" class="w-full border px-3 py-2 rounded focus:ring focus:ring-yellow-300">
+            
+            <label class="block text-gray-600 mt-2">Amount:</label>
+            <input type="number" name="amount" class="w-full border px-3 py-2 rounded focus:ring focus:ring-yellow-300">
+            
+            <label class="block text-gray-600 mt-2">Type:</label>
+            <select name="transaction_type" class="w-full border px-3 py-2 rounded focus:ring focus:ring-yellow-300">
+                <option value="Income">Income</option>
+                <option value="Expense">Expense</option>
+            </select>
+
+            <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded mt-4 hover:bg-yellow-600 w-full">Record Transaction</button>
+        </form>
+
+        <a href="{{ url_for('dashboard') }}" class="block text-center mt-4 text-blue-500 hover:underline">Back to Dashboard</a>
+    </div>
+</body>
+</html>
