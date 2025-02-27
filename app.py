@@ -65,6 +65,7 @@ def get_attendance():
             records[student_name] = status
     return records
 
+
 # Event Management
 def add_event(event_name, event_date, slots):
     with open(EVENTS_FILE, "a") as f:
@@ -76,6 +77,13 @@ def get_events():
         for line in f:
             events.append(line.strip().split(","))
     return events
+
+def delete_event(event_name):
+    events = get_events()
+    with open(EVENTS_FILE, "w") as f:
+        for event in events:
+            if event[0] != event_name:  # Keep all events except the one to delete
+                f.write(",".join(event) + "\n")
 
 # Financial Transactions Management
 def record_transaction(transaction_name, amount, transaction_type):
@@ -153,13 +161,22 @@ def attendance():
 def events():
     if "user" not in session or session["role"] != "admin":
         return redirect(url_for("login"))
+    
     if request.method == "POST":
         event_name = request.form["event_name"]
         event_date = request.form["event_date"]
         slots = request.form["slots"]
         add_event(event_name, event_date, slots)
+
     events_list = get_events()
     return render_template("events.html", events=events_list)
+
+@app.route("/delete_event/<event_name>")
+def delete_event_route(event_name):
+    if "user" not in session or session["role"] != "admin":
+        return redirect(url_for("login"))
+    delete_event(event_name)
+    return redirect(url_for("events"))
 
 @app.route("/finances", methods=["GET", "POST"])
 def finances():
